@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://cj2ub7cae4tuq"]
+
+[ext_resource type="Script" uid="uid://buuv42qnbq7l0" path="res://Scripts/player.gd" id="1_v0iea"]
+[ext_resource type="Script" uid="uid://bdtwu7n8ls2py" path="res://Scripts/camera_3d.gd" id="2_cvnsp"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_g4v7s"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yf5fn"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="Animation" id="Animation_cvnsp"]
+resource_name = "Orient_DOWN"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 3.1415927), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6t5aa"]
+resource_name = "Orient_UP"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 3.1415927)]
+}
+
+[sub_resource type="Animation" id="Animation_vgqql"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fkybt"]
+_data = {
+&"Orient_DOWN": SubResource("Animation_cvnsp"),
+&"Orient_UP": SubResource("Animation_6t5aa"),
+&"RESET": SubResource("Animation_vgqql")
+}
+
+[node name="Player" type="CharacterBody3D" unique_id=1666495229]
+script = ExtResource("1_v0iea")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1944441970]
+mesh = SubResource("CapsuleMesh_g4v7s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=688229988]
+shape = SubResource("CapsuleShape3D_yf5fn")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=331532418]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0.6092133, -0.16271827)
+script = ExtResource("2_cvnsp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D" unique_id=1847244963]
+libraries/ = SubResource("AnimationLibrary_fkybt")
